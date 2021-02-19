@@ -13,3 +13,21 @@ Cargo.lock
 # Added by cargo
 
 /target
+
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/

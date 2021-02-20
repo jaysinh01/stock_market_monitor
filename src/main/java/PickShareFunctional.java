@@ -9,29 +9,31 @@ import java.util.stream.Stream;
 
 public class PickShareFunctional {
 
-    public static <T> T uncheckCall(Callable<T> callable) {
+    //https://stackoverflow.com/a/23548793/10861074
+    private ShareInfo safeFoo(final String a) {
         try {
-            return callable.call();
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ShareUtil.getPrice(a);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 
-    public void findHighPrices(Stream<String> stream){
-//        1- Create a list of ​ShareInfo​ filled with the price for each of the symbols in ​Share
-        List<ShareInfo> shareInfos = stream.map(x -> ShareUtil.getPrice(x)).collect(Collectors.toList());
+    public ShareInfo findHighPrices(Stream<String> stream){
+////        1- Create a list of ​ShareInfo​ filled with the price for each of the symbols in ​Share
+//        List<ShareInfo> shareInfos = stream.map(this::safeFoo).collect(Collectors.toList());
+//        System.out.println(shareInfos);
+////        2- Trim down this list to a list of shares whose prices under $500
+//        final Predicate isPriceLessThan1000 = ShareUtil.isPriceLessThan(1000);
+//        List<ShareInfo> trimmedDown = shareInfos.stream().filter(isPriceLessThan1000::test).collect(Collectors.toList());
+////        3- Return the highest-priced share.
+//       // ShareInfo share = trimmedDown.sort(Comparator.comparing(ShareInfo -> ShareInfo.price));
+//        trimmedDown.sort(Comparator.comparing(x -> x.price));
+//        ShareInfo share = trimmedDown.get(trimmedDown.size() - 1);
+//        System.out.println(share);
 
-        System.out.println(shareInfos);
-//        2- Trim down this list to a list of shares whose prices under $500
-        final Predicate isPriceLessThan500 = ShareUtil.isPriceLessThan(500);
-        List<ShareInfo> trimmedDown = shareInfos.stream().filter(isPriceLessThan500::test).collect(Collectors.toList());
-//        3- Return the highest-priced share.
-       // ShareInfo share = trimmedDown.sort(Comparator.comparing(ShareInfo -> ShareInfo.price));
-        trimmedDown.sort(Comparator.comparing(x -> x.price));
-        ShareInfo share = trimmedDown.get(0);
-        System.out.println(share);
+        final Predicate isPriceLessThan1000 = ShareUtil.isPriceLessThan(4000);
+        return stream.map(this::safeFoo).filter(isPriceLessThan1000::test).max(Comparator.comparing(x -> x.price)).get();
+
 
     }
 

@@ -4,30 +4,32 @@ import java.util.function.Predicate;
 public class PickShareImperative {
 
     public static void main(String[] args) throws IOException {
-//        final Predicate isPriceLessThan500 = ShareUtil.isPriceLessThan(500);
-//        ShareInfo highPriced = ShareUtil.getPrice(Shares.symbols.get(0));
-//        for(String symbol : Shares.symbols) {
-//            ShareInfo shareInfo = ShareUtil.getPrice(symbol);
-//            if (isPriceLessThan500.test(shareInfo))
-//                highPriced = ShareUtil.pickHigh(highPriced, shareInfo);
-//        }
+        // Due to the API 5 calls per minute quota. Run each of the following header sections separately,
+        // by commenting them out one at a time.
 
-//        System.out.println("High priced under $500 is " + highPriced);
+        PickShareFunctional stockInfo = new PickShareFunctional();
+        //--------------- Using stream --------------------------
+        long startTimeStream = System.nanoTime();
 
-        //final Predicate isPriceLessThan1000 = ShareUtil.isPriceLessThan(1000);
-//        Shares.symbols.stream().allMatch(isPriceLessThan1000::test);
+        System.out.println(stockInfo.findHighPrices(Shares.symbols.stream()));
+        long endTimeStream = System.nanoTime(); //TIME: on AVG 4200 milliseconds (Based on 10 trials)
 
-        PickShareFunctional dumAss = new PickShareFunctional();
-        long startTime = System.nanoTime();
+        System.out.print("Stream time: ");
+        System.out.println((endTimeStream - startTimeStream)/1000000);
 
-        System.out.println(dumAss.findHighPrices(Shares.symbols.stream()));
-        long endTime = System.nanoTime(); //TIME: 3931 milliseconds
+        //-------------- Using parallel stream --------------------
 
+        long startTimeParallel = System.nanoTime();
 
-//        System.out.println(dumAss.findHighPrices(Shares.symbols.parallelStream()));
-//        long endTime = System.nanoTime(); // TIME: 1603 milliseconds
+        System.out.println(stockInfo.findHighPrices(Shares.symbols.parallelStream()));
 
+        long endTimeParallel = System.nanoTime(); //TIME: on AVG 850 milliseconds (Based on 10 trials)
+        System.out.print("Parallel stream time: ");
+        System.out.println((endTimeParallel - startTimeParallel)/1000000);
 
-        System.out.println((endTime - startTime)/1000000);
+        // Reason for parallel stream being faster: Parallel stream incorporates parallel processing on multiple cpu cores.
+        // Hence the process of task is distributed, this will enhance scheduling and essentially the program threads will
+        // get more cpu time than a single core execution.
+
     }
 }

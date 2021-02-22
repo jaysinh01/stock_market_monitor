@@ -1,0 +1,15 @@
+Here's a break down of test cases performed manually to ensure program validity:
+
+  Test ID  | Price |  Expected Output | Actual Output | Status
+ --------------------------------------------------------------------------------------
+    1      | 500   |  AAPL & price    |  AAPL & price | PASS
+ --------------------------------------------------------------------------------------
+    2      | 1000  |  AAPL & price    |  AAPL & price | PASS
+ --------------------------------------------------------------------------------------
+    3      | 4000  |  AMZN & price    |  AMZN & price | PASS
+
+
+
+known program limitation:
+Due to the quota limit on the API (5 calls per minute) a consecutive run within one minute may
+return a value of 0 for the price.

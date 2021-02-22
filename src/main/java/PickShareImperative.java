@@ -18,6 +18,16 @@ public class PickShareImperative {
 //        Shares.symbols.stream().allMatch(isPriceLessThan1000::test);
 
         PickShareFunctional dumAss = new PickShareFunctional();
+        long startTime = System.nanoTime();
+
         System.out.println(dumAss.findHighPrices(Shares.symbols.stream()));
+        long endTime = System.nanoTime(); //TIME: 3931 milliseconds
+
+
+//        System.out.println(dumAss.findHighPrices(Shares.symbols.parallelStream()));
+//        long endTime = System.nanoTime(); // TIME: 1603 milliseconds
+
+
+        System.out.println((endTime - startTime)/1000000);
     }
 }

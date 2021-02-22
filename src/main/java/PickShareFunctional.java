@@ -18,7 +18,7 @@ public class PickShareFunctional {
     public ShareInfo findHighPrices(Stream<String> stream){
 
 
-        return stream.map(this::safeFoo).filter(ShareUtil.isPriceLessThan(4000)::test).max(Comparator.comparing(x -> x.price)).get();
+        return stream.map(this::safeFoo).filter(ShareUtil.isPriceLessThan(500)::test).max(Comparator.comparing(x -> x.price)).get();
 
 
     }
